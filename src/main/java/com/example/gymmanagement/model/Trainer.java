@@ -5,10 +5,11 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
+
 @NoArgsConstructor
 @Data
 @Table(name = "trainers")
+@Entity
 public class Trainer {
 
 

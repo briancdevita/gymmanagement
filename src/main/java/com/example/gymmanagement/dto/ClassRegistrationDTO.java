@@ -14,9 +14,11 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Data
 public class ClassRegistrationDTO {
-
+    
 
     private Long id;
     private WorkoutClass workoutClass;
     private LocalDateTime registrationDate;
 }
+
+

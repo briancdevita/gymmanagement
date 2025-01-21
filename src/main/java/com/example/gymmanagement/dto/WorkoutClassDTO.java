@@ -1,6 +1,7 @@
 package com.example.gymmanagement.dto;
 
 
+import com.example.gymmanagement.model.Trainer;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,5 +20,6 @@ public class WorkoutClassDTO {
     private String className;
     private String description;
     private LocalDateTime dateTime;
+    private Trainer trainer;
 
 }
