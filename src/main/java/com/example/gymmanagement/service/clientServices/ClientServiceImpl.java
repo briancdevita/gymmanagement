@@ -2,6 +2,8 @@ package com.example.gymmanagement.service.clientServices;
 
 
 import com.example.gymmanagement.dto.ClientDTO;
+import com.example.gymmanagement.exception.ErrorCode;
+import com.example.gymmanagement.exception.GymManagementExeption;
 import com.example.gymmanagement.model.Client;
 import com.example.gymmanagement.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +36,10 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public ClientDTO getClientById(Long id) {
         Client client = clientRepository.findById(id)
-                .orElseThrow(() ->  new RuntimeException("Client not found with id: " + id));
+                .orElseThrow(() ->  new GymManagementExeption(
+                        ErrorCode.RESOURCE_NOT_FOUND,
+                        "Client not found with id " + id
+                ));
         return mapToDTO(client);
     }
 
@@ -47,7 +52,10 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public ClientDTO updateClient(Long id, ClientDTO clientDTO) {
         Client client = clientRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Client no t found with id " + id));
+                .orElseThrow(() -> new GymManagementExeption(
+                        ErrorCode.RESOURCE_NOT_FOUND,
+                        "Client not found with id " + id
+                ));
 
 
         client.setFirstName(clientDTO.getFirstName());
@@ -55,16 +63,13 @@ public class ClientServiceImpl implements ClientService {
         client.setEmail(clientDTO.getEmail());
         client.setBirthDate(clientDTO.getBirthDate());
         client.setMembershipStatus(clientDTO.getMembershipStatus());
-
         Client updateClieent = clientRepository.save(client);
         return mapToDTO(updateClieent);
 
     }
 
     @Override
-    public void deleteClient(Long id) {
-     clientRepository.deleteById(id);
-    }
+    public void deleteClient(Long id) {clientRepository.deleteById(id);}
 
 
     /// Map
