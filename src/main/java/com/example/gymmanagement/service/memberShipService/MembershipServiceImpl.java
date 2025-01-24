@@ -30,6 +30,7 @@ public class MembershipServiceImpl implements  MembershipService {
 
     @Override
     public MembershipDTO createMembership(MembershipDTO membershipDTO) {
+        System.out.println(membershipDTO);
         Membership membership = mapToEntity(membershipDTO);
 
         Membership savedMembership = membershipRepository.save(membership);

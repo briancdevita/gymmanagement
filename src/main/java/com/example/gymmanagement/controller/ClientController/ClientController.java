@@ -11,6 +11,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/clients")
+@CrossOrigin(origins = "*", methods = {RequestMethod.POST, RequestMethod.GET})
+
 public class ClientController {
 
 

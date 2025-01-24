@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/classregistration")
+@CrossOrigin(origins = "*", methods = {RequestMethod.POST, RequestMethod.GET})
 public class ClassRegistrationController {
 
 
