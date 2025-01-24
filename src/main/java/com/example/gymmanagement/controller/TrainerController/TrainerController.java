@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/trainers")
+@CrossOrigin(origins = "*", methods = {RequestMethod.POST, RequestMethod.GET})
 
 
 public class TrainerController {

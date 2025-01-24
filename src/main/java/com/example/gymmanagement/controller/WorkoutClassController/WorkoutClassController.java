@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/workoutclass")
+@RequestMapping("/api/workoutclass")
+@CrossOrigin(origins = "*", methods = {RequestMethod.POST, RequestMethod.GET})
+
 public class WorkoutClassController {
 
 

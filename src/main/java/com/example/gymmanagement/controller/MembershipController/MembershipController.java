@@ -11,9 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/memberships/")
-
-
+@RequestMapping("/api/memberships/")
+@CrossOrigin(origins = "*", methods = {RequestMethod.POST, RequestMethod.GET})
 
 public class MembershipController {
 
