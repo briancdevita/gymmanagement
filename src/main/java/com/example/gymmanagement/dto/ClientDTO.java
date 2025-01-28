@@ -20,6 +20,8 @@ public class ClientDTO {
     private LocalDate registrationDate;
     private LocalDate birthDate;
     private String membershipStatus;
+    private LocalDate startDate;
+    private LocalDate endDate;
 
 
 

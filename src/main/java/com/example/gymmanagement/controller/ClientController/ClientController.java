@@ -11,8 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/clients")
-@CrossOrigin(origins = "*", methods = {RequestMethod.POST, RequestMethod.GET})
-
+@CrossOrigin(origins = "*", methods = {RequestMethod.POST, RequestMethod.GET, RequestMethod.PUT, RequestMethod.DELETE})
 public class ClientController {
 
 
@@ -27,7 +26,9 @@ public class ClientController {
 
 
 
+    @PostMapping
     public ResponseEntity<ClientDTO> createClient(@RequestBody ClientDTO clientDTO) {
+        System.out.println("clientDTO = " + clientDTO);
         ClientDTO createClient = clientService.createClient(clientDTO);
         return ResponseEntity.ok(createClient);
 

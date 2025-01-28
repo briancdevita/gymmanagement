@@ -5,6 +5,7 @@ import com.example.gymmanagement.dto.ClientDTO;
 import com.example.gymmanagement.exception.ErrorCode;
 import com.example.gymmanagement.exception.GymManagementExeption;
 import com.example.gymmanagement.model.Client;
+import com.example.gymmanagement.model.Membership;
 import com.example.gymmanagement.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -81,6 +82,16 @@ public class ClientServiceImpl implements ClientService {
         client.setEmail(dto.getEmail());
         client.setBirthDate(dto.getBirthDate());
         client.setMembershipStatus(dto.getMembershipStatus());
+
+        // Si hay fechas de membresía en el DTO, inicializamos Membership
+        if (dto.getStartDate() != null && dto.getEndDate() != null) {
+            Membership membership = new Membership();
+            membership.setStartDate(dto.getStartDate());
+            membership.setEndDate(dto.getEndDate());
+            membership.setClient(client); // Relación inversa
+            client.setMembership(membership); // Relación directa
+        }
+
         return client;
     }
 
@@ -92,7 +103,19 @@ public class ClientServiceImpl implements ClientService {
         dto.setEmail(client.getEmail());
         dto.setRegistrationDate(client.getRegistrationDate());
         dto.setBirthDate(client.getBirthDate());
+
+        // Si Membership no es null, asignamos las fechas al DTO
+        if (client.getMembership() != null) {
+            dto.setStartDate(client.getMembership().getStartDate());
+            dto.setEndDate(client.getMembership().getEndDate());
+        } else {
+            dto.setStartDate(null);
+            dto.setEndDate(null);
+        }
+
         dto.setMembershipStatus(client.getMembershipStatus());
         return dto;
     }
+
+
 }
