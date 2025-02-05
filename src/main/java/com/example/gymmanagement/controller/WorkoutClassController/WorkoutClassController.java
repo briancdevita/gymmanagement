@@ -36,7 +36,7 @@ public class WorkoutClassController {
 
 
     @PostMapping()
-    public ResponseEntity<WorkoutClassDTO> createWorkoutClass(WorkoutClassDTO workoutClassDTO) {
+    public ResponseEntity<WorkoutClassDTO> createWorkoutClass(@RequestBody  WorkoutClassDTO workoutClassDTO) {
         WorkoutClassDTO savedWorkoutClass = workoutClassService.createWorkout(workoutClassDTO);
         return ResponseEntity.ok(savedWorkoutClass);
     }

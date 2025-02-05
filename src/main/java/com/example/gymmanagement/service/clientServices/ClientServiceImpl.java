@@ -82,6 +82,7 @@ public class ClientServiceImpl implements ClientService {
         client.setEmail(dto.getEmail());
         client.setBirthDate(dto.getBirthDate());
         client.setMembershipStatus(dto.getMembershipStatus());
+        client.setStatus(dto.getStatus());
 
         // Si hay fechas de membresía en el DTO, inicializamos Membership
         if (dto.getStartDate() != null && dto.getEndDate() != null) {
@@ -103,6 +104,7 @@ public class ClientServiceImpl implements ClientService {
         dto.setEmail(client.getEmail());
         dto.setRegistrationDate(client.getRegistrationDate());
         dto.setBirthDate(client.getBirthDate());
+        dto.setStatus(client.getStatus());
 
         // Si Membership no es null, asignamos las fechas al DTO
         if (client.getMembership() != null) {

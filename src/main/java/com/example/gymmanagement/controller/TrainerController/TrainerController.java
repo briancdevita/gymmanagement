@@ -36,7 +36,7 @@ public class TrainerController {
 
     //Create trainer
     @PostMapping()
-    public ResponseEntity<TrainerDTO> createTrainer(TrainerDTO trainerDTO) {
+    public ResponseEntity<TrainerDTO> createTrainer(@RequestBody  TrainerDTO trainerDTO) {
         TrainerDTO savedTrainer = trainerService.createTrainer(trainerDTO);
         return ResponseEntity.ok(savedTrainer);
     }
@@ -56,7 +56,8 @@ public class TrainerController {
     //Update trainer
 
     @PutMapping("{id}")
-    public ResponseEntity<TrainerDTO> updateTrainer(@PathVariable Long id, TrainerDTO trainer) {
+    public ResponseEntity<TrainerDTO> updateTrainer(@PathVariable Long id, @RequestBody  TrainerDTO trainer) {
+        System.out.println(trainer);
         TrainerDTO trainerUpdate = trainerService.updateTrainer(id, trainer);
         return ResponseEntity.ok(trainerUpdate);
     }

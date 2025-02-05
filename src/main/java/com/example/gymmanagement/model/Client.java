@@ -39,7 +39,7 @@ public class Client implements UserDetails {
 
     private LocalDate registrationDate;
     private LocalDate birthDate;
-
+    private Status status;
     private String membershipStatus;
 
 
