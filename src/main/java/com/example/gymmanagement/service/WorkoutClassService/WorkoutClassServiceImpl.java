@@ -1,9 +1,12 @@
 package com.example.gymmanagement.service.WorkoutClassService;
 
 
+import com.example.gymmanagement.dto.TrainerDTO;
 import com.example.gymmanagement.dto.WorkoutClassDTO;
+import com.example.gymmanagement.model.Trainer;
 import com.example.gymmanagement.model.WorkoutClass;
 import com.example.gymmanagement.repository.WorkoutClassRepository;
+import com.example.gymmanagement.service.trainerService.TrainerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,11 +17,13 @@ import java.util.stream.Collectors;
 public class WorkoutClassServiceImpl implements  WorkoutClassService {
 
     private final WorkoutClassRepository workoutClassRepository;
+    private final TrainerService trainerService;
 
 
     @Autowired
-    public WorkoutClassServiceImpl(WorkoutClassRepository workoutClassRepository) {
+    public WorkoutClassServiceImpl(WorkoutClassRepository workoutClassRepository, TrainerService trainerService) {
         this.workoutClassRepository = workoutClassRepository;
+        this.trainerService = trainerService;
     }
 
 
@@ -52,7 +57,8 @@ public class WorkoutClassServiceImpl implements  WorkoutClassService {
         workoutClass.setDateTime(workoutClassDTO.getDateTime());
         workoutClass.setClassName(workoutClassDTO.getClassName());
         workoutClass.setDescription(workoutClassDTO.getDescription());
-        workoutClass.setTrainer(workoutClassDTO.getTrainer());
+        workoutClass.setTrainer(trainerService.mapTrainerToEntity(workoutClassDTO.getTrainer())); 
+
 
         WorkoutClass updateWorkoutClass = workoutClassRepository.save(workoutClass);
 
@@ -72,18 +78,43 @@ public class WorkoutClassServiceImpl implements  WorkoutClassService {
         WorkoutClass workoutClass = new WorkoutClass();
         workoutClass.setClassName(dto.getClassName());
         workoutClass.setDescription(dto.getDescription());
-        workoutClass.setTrainer(dto.getTrainer());
         workoutClass.setDateTime(dto.getDateTime());
+        workoutClass.setStatus(dto.getStatus());
+        workoutClass.setImageUrl(dto.getImageUrl());
+        workoutClass.setMaxCapacity(dto.getMaxCapacity());
+        workoutClass.setRegisteredParticipants(dto.getRegisteredParticipants());
+        workoutClass.setDuration(dto.getDuration());
+
+
+        if (dto.getTrainer() != null) {
+            workoutClass.setTrainer(trainerService.mapTrainerToEntity(dto.getTrainer()));
+        }
+
         return workoutClass;
     }
 
+    // ✅ Mapeo de WorkoutClass a WorkoutClassDTO
     private WorkoutClassDTO mapToDTO(WorkoutClass workoutClass) {
         WorkoutClassDTO dto = new WorkoutClassDTO();
         dto.setId(workoutClass.getId());
         dto.setClassName(workoutClass.getClassName());
-        dto.setTrainer(workoutClass.getTrainer());
-        dto.setDateTime(workoutClass.getDateTime());
         dto.setDescription(workoutClass.getDescription());
+        dto.setDateTime(workoutClass.getDateTime());
+        dto.setDuration(workoutClass.getDuration());
+        dto.setImageUrl(workoutClass.getImageUrl());
+        dto.setMaxCapacity(workoutClass.getMaxCapacity());
+        dto.setRegisteredParticipants(workoutClass.getRegisteredParticipants());
+        dto.setStatus(workoutClass.getStatus());
+
+        // ✅ Mapear correctamente el entrenador solo si existe
+        if (workoutClass.getTrainer() != null) {
+            dto.setTrainer(trainerService.mapTrainerToDTO(workoutClass.getTrainer()));
+        }
+
         return dto;
     }
+
+
+
+
 }

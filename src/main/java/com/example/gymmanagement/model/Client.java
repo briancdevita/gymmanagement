@@ -39,8 +39,13 @@ public class Client implements UserDetails {
 
     private LocalDate registrationDate;
     private LocalDate birthDate;
-
+    private Status status;
     private String membershipStatus;
+
+
+    @OneToOne(mappedBy = "client", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Membership membership;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

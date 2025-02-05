@@ -1,6 +1,7 @@
 package com.example.gymmanagement.dto;
 
 
+import com.example.gymmanagement.model.Status;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,9 @@ public class ClientDTO {
     private LocalDate registrationDate;
     private LocalDate birthDate;
     private String membershipStatus;
+    private LocalDate startDate;
+    private LocalDate endDate;
+    private Status status;
 
 
 

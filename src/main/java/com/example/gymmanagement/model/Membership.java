@@ -17,7 +17,7 @@ public class Membership {
     private Long id;
 
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "client_id")
     private Client client;
 

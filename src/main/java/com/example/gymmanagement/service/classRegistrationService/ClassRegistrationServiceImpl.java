@@ -76,6 +76,7 @@ public class ClassRegistrationServiceImpl implements  ClassRegistrationService{
         ClassRegistration classRegistration = new ClassRegistration();
         classRegistration.setRegistrationDate(dto.getRegistrationDate());
         classRegistration.setWorkoutClass(dto.getWorkoutClass());
+
         return classRegistration;
     }
 
