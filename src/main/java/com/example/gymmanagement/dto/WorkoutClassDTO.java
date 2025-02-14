@@ -1,10 +1,5 @@
 package com.example.gymmanagement.dto;
 
-
-import com.example.gymmanagement.model.Status;
-import com.example.gymmanagement.model.Trainer;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
