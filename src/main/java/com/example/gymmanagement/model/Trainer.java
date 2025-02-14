@@ -26,6 +26,7 @@ public class Trainer {
     private String name;
     private String specialty;
     private String avatar;
+    
 
 
     @Column(unique = true)

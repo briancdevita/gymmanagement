@@ -3,6 +3,8 @@ package com.example.gymmanagement.dto;
 
 import com.example.gymmanagement.model.Status;
 import com.example.gymmanagement.model.Trainer;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,12 +23,13 @@ public class WorkoutClassDTO {
     private String className;
     private String description;
     private LocalDateTime dateTime;
-    private Status status;
+    private String status;
     private String imageUrl;
     private long maxCapacity;
     private long duration;
     private long registeredParticipants;
-    private TrainerDTO trainer;
+    private Long trainerId;
+
 
 
 

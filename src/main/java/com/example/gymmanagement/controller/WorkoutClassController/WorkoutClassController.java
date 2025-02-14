@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/workoutclass")
-@CrossOrigin(origins = "*", methods = {RequestMethod.POST, RequestMethod.GET})
+@CrossOrigin(origins = "*", methods = {RequestMethod.POST, RequestMethod.GET,RequestMethod.PUT})
 
 public class WorkoutClassController {
 
@@ -42,21 +42,22 @@ public class WorkoutClassController {
     }
 
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<WorkoutClassDTO> getOneWorkoutClass(Long id) {
         WorkoutClassDTO workoutClass = workoutClassService.getWorkoutById(id);
         return ResponseEntity.ok(workoutClass);
     }
 
 
-    @PutMapping("{id}")
-    public ResponseEntity<WorkoutClassDTO> updateWorkoutClass(Long id, WorkoutClassDTO workoutClass) {
+    @PutMapping("/{id}")
+    public ResponseEntity<WorkoutClassDTO> updateWorkoutClass(@PathVariable Long id, @RequestBody  WorkoutClassDTO workoutClass) {
+        System.out.println(id);
         WorkoutClassDTO workoutClassUpdate = workoutClassService.updateWorkout(id, workoutClass);
         return ResponseEntity.ok(workoutClassUpdate);
     }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity<WorkoutClassDTO> deleteWorkoutClass(Long id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<WorkoutClassDTO> deleteWorkoutClass(@PathVariable  Long id) {
          workoutClassService.deleteWorkout(id);
         return ResponseEntity.ok().build();
     }

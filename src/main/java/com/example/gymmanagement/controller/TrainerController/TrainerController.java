@@ -45,7 +45,7 @@ public class TrainerController {
 
     //Get one trainer
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<TrainerDTO> getOneTrainer(@PathVariable Long id) {
         TrainerDTO trainer = trainerService.getTrainerById(id);
         return ResponseEntity.ok(trainer);
@@ -55,7 +55,7 @@ public class TrainerController {
 
     //Update trainer
 
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<TrainerDTO> updateTrainer(@PathVariable Long id, @RequestBody  TrainerDTO trainer) {
         System.out.println(trainer);
         TrainerDTO trainerUpdate = trainerService.updateTrainer(id, trainer);
@@ -65,7 +65,7 @@ public class TrainerController {
 
 
     //Delete trainer
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<TrainerDTO> deleteTrainer(@PathVariable Long id) {
 
         trainerService.deleteTrainer(id);

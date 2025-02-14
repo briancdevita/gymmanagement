@@ -21,7 +21,7 @@ public class WorkoutClass {
     private String className;
     private String description;
     private LocalDateTime dateTime;
-    private Status status;
+    private String status;
     private String imageUrl;
     private long maxCapacity;
     private long duration;

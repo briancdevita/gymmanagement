@@ -5,6 +5,7 @@ import com.example.gymmanagement.dto.TrainerDTO;
 import com.example.gymmanagement.dto.WorkoutClassDTO;
 import com.example.gymmanagement.model.Trainer;
 import com.example.gymmanagement.model.WorkoutClass;
+import com.example.gymmanagement.repository.TrainerRepository;
 import com.example.gymmanagement.repository.WorkoutClassRepository;
 import com.example.gymmanagement.service.trainerService.TrainerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +19,14 @@ public class WorkoutClassServiceImpl implements  WorkoutClassService {
 
     private final WorkoutClassRepository workoutClassRepository;
     private final TrainerService trainerService;
+    private final TrainerRepository trainerRepository;
 
 
     @Autowired
-    public WorkoutClassServiceImpl(WorkoutClassRepository workoutClassRepository, TrainerService trainerService) {
+    public WorkoutClassServiceImpl(WorkoutClassRepository workoutClassRepository, TrainerService trainerService, TrainerRepository trainerRepository) {
         this.workoutClassRepository = workoutClassRepository;
         this.trainerService = trainerService;
+        this.trainerRepository = trainerRepository;
     }
 
 
@@ -51,19 +54,31 @@ public class WorkoutClassServiceImpl implements  WorkoutClassService {
 
     @Override
     public WorkoutClassDTO updateWorkout(Long id, WorkoutClassDTO workoutClassDTO) {
+
         WorkoutClass workoutClass = workoutClassRepository.findById(id)
-                .orElseThrow(()-> new RuntimeException("Client no t found with id" + id));
+                .orElseThrow(() -> new RuntimeException("Workout class not found with id: " + id));
 
         workoutClass.setDateTime(workoutClassDTO.getDateTime());
         workoutClass.setClassName(workoutClassDTO.getClassName());
         workoutClass.setDescription(workoutClassDTO.getDescription());
-        workoutClass.setTrainer(trainerService.mapTrainerToEntity(workoutClassDTO.getTrainer())); 
+        workoutClass.setStatus(workoutClassDTO.getStatus());
+        workoutClass.setImageUrl(workoutClassDTO.getImageUrl());
+        workoutClass.setMaxCapacity(workoutClassDTO.getMaxCapacity());
+        workoutClass.setRegisteredParticipants(workoutClassDTO.getRegisteredParticipants());
+        workoutClass.setDuration(workoutClassDTO.getDuration());
 
+        if (workoutClassDTO.getTrainerId() != null) {
+            Trainer trainer = trainerRepository.findById(workoutClassDTO.getTrainerId())
+                    .orElseThrow(() -> new RuntimeException("Trainer not found with id: " + workoutClassDTO.getTrainerId()));
+            workoutClass.setTrainer(trainer);
+        } else {
+            workoutClass.setTrainer(null);
+        }
 
-        WorkoutClass updateWorkoutClass = workoutClassRepository.save(workoutClass);
-
-        return mapToDTO(updateWorkoutClass);
+        WorkoutClass updatedWorkoutClass = workoutClassRepository.save(workoutClass);
+        return mapToDTO(updatedWorkoutClass);
     }
+
 
     @Override
     public void deleteWorkout(Long id) {
@@ -86,15 +101,20 @@ public class WorkoutClassServiceImpl implements  WorkoutClassService {
         workoutClass.setDuration(dto.getDuration());
 
 
-        if (dto.getTrainer() != null) {
-            workoutClass.setTrainer(trainerService.mapTrainerToEntity(dto.getTrainer()));
+        if (dto.getTrainerId() != null) {
+
+            Trainer trainer = trainerRepository.findById(dto.getTrainerId())
+                    .orElseThrow(() -> new RuntimeException("Trainer not found with id: " + dto.getTrainerId()));
+            workoutClass.setTrainer(trainer);
         }
 
         return workoutClass;
     }
 
+
     // ✅ Mapeo de WorkoutClass a WorkoutClassDTO
     private WorkoutClassDTO mapToDTO(WorkoutClass workoutClass) {
+
         WorkoutClassDTO dto = new WorkoutClassDTO();
         dto.setId(workoutClass.getId());
         dto.setClassName(workoutClass.getClassName());
@@ -106,13 +126,14 @@ public class WorkoutClassServiceImpl implements  WorkoutClassService {
         dto.setRegisteredParticipants(workoutClass.getRegisteredParticipants());
         dto.setStatus(workoutClass.getStatus());
 
-        // ✅ Mapear correctamente el entrenador solo si existe
+        // Extraer el ID del entrenador, si existe
         if (workoutClass.getTrainer() != null) {
-            dto.setTrainer(trainerService.mapTrainerToDTO(workoutClass.getTrainer()));
+            dto.setTrainerId(workoutClass.getTrainer().getId());
         }
 
         return dto;
     }
+
 
 
 
