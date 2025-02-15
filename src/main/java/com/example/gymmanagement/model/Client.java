@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,6 +18,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString(exclude = "membership") // Excluye la relación recursiva
 @Table(name = "clients")
 public class Client implements UserDetails {
 
@@ -39,7 +41,6 @@ public class Client implements UserDetails {
 
     private LocalDate registrationDate;
     private LocalDate birthDate;
-    private Status status;
     private String membershipStatus;
 
 

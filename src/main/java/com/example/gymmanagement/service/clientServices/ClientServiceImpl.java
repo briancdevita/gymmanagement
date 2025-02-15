@@ -52,6 +52,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public ClientDTO updateClient(Long id, ClientDTO clientDTO) {
+        System.out.println("Client service: " + clientDTO);
         Client client = clientRepository.findById(id)
                 .orElseThrow(() -> new GymManagementExeption(
                         ErrorCode.RESOURCE_NOT_FOUND,
@@ -64,10 +65,23 @@ public class ClientServiceImpl implements ClientService {
         client.setEmail(clientDTO.getEmail());
         client.setBirthDate(clientDTO.getBirthDate());
         client.setMembershipStatus(clientDTO.getMembershipStatus());
-        Client updateClieent = clientRepository.save(client);
-        return mapToDTO(updateClieent);
 
+
+        if (clientDTO.getStartDate() != null && clientDTO.getEndDate() != null) {
+            Membership membership = client.getMembership();
+            if (membership == null) {
+                membership = new Membership();
+                membership.setClient(client);
+            }
+            membership.setStartDate(clientDTO.getStartDate());
+            membership.setEndDate(clientDTO.getEndDate());
+            client.setMembership(membership);
+        }
+
+        Client updatedClient = clientRepository.save(client);
+        return mapToDTO(updatedClient);
     }
+
 
     @Override
     public void deleteClient(Long id) {clientRepository.deleteById(id);}
@@ -81,8 +95,9 @@ public class ClientServiceImpl implements ClientService {
         client.setLastName(dto.getLastName());
         client.setEmail(dto.getEmail());
         client.setBirthDate(dto.getBirthDate());
+        client.setRegistrationDate(dto.getRegistrationDate());
         client.setMembershipStatus(dto.getMembershipStatus());
-        client.setStatus(dto.getStatus());
+
 
         // Si hay fechas de membresía en el DTO, inicializamos Membership
         if (dto.getStartDate() != null && dto.getEndDate() != null) {
@@ -96,7 +111,7 @@ public class ClientServiceImpl implements ClientService {
         return client;
     }
 
-    private ClientDTO mapToDTO(Client client) {
+    public ClientDTO mapToDTO(Client client) {
         ClientDTO dto = new ClientDTO();
         dto.setId(client.getId());
         dto.setFirstName(client.getFirstName());
@@ -104,9 +119,9 @@ public class ClientServiceImpl implements ClientService {
         dto.setEmail(client.getEmail());
         dto.setRegistrationDate(client.getRegistrationDate());
         dto.setBirthDate(client.getBirthDate());
-        dto.setStatus(client.getStatus());
+        dto.setMembershipStatus(client.getMembershipStatus());
 
-        // Si Membership no es null, asignamos las fechas al DTO
+
         if (client.getMembership() != null) {
             dto.setStartDate(client.getMembership().getStartDate());
             dto.setEndDate(client.getMembership().getEndDate());
@@ -114,10 +129,9 @@ public class ClientServiceImpl implements ClientService {
             dto.setStartDate(null);
             dto.setEndDate(null);
         }
-
-        dto.setMembershipStatus(client.getMembershipStatus());
         return dto;
     }
+
 
 
 }
