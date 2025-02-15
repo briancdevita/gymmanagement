@@ -25,12 +25,9 @@ public class MembershipSchedulerService {
     // Configuramos la tarea para que se ejecute diariamente a las 00:00
     @Scheduled(cron = "0 0 0 * * ?")
     public void updateExpiredMemberships() {
-
         List<Client> clients = clientRepository.findAllByMembershipStatusAndMembership_EndDateBefore("ACTIVE", LocalDate.now());
-        System.out.println(clients);
         for (Client client : clients) {
             client.setMembershipStatus("EXPIRED");
-            logger.info("Updated membership status to EXPIRED for client id: " + client.getId());
             clientRepository.save(client);
         }
     }
